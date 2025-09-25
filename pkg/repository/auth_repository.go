@@ -10,7 +10,7 @@ import (
 )
 
 type AuthRepository struct {
-	client *gocloak.Client
+	client gocloak.GoCloak
 	cfg    *config.Config
 }
 
@@ -30,28 +30,28 @@ func (repo *AuthRepository) Login(username, password string) (*model.TokenRespon
 	return &model.TokenResponse{
 		AccessToken:  token.AccessToken,
 		RefreshToken: token.RefreshToken,
-		IdToken:      token.IdToken,
+		IdToken:      token.IDToken,
 		TokenType:    token.TokenType,
 		ExpiresIn:    token.ExpiresIn,
 	}, nil
 }
 
 func (repo *AuthRepository) RefreshToken(refreshToken string) (*model.TokenResponse, error) {
-	token, err := repo.client.RefreshToken(context.Background(), repo.cfg.ClientID, refreshToken, repo.cfg.Realm)
+	token, err := repo.client.RefreshToken(context.Background(), refreshToken, repo.cfg.ClientID, repo.cfg.ClientSecret, repo.cfg.Realm)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to refresh token")
 	}
 	return &model.TokenResponse{
 		AccessToken:  token.AccessToken,
 		RefreshToken: token.RefreshToken,
-		IdToken:      token.IdToken,
+		IdToken:      token.IDToken,
 		TokenType:    token.TokenType,
 		ExpiresIn:    token.ExpiresIn,
 	}, nil
 }
 
 func (repo *AuthRepository) Logout(refreshToken string) error {
-	err := repo.client.Logout(context.Background(), repo.cfg.ClientID, refreshToken, repo.cfg.Realm)
+	err := repo.client.Logout(context.Background(), repo.cfg.ClientID, repo.cfg.ClientSecret, repo.cfg.Realm, refreshToken)
 	if err != nil {
 		return errors.Wrap(err, "failed to logout")
 	}
