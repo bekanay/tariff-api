@@ -10,22 +10,17 @@ import (
 )
 
 func main() {
-	// Загрузка конфигурации
 	cfg := config.LoadConfig()
 
-	// Инициализация репозитория, сервиса и хендлера
 	repo := repository.NewAuthRepository(cfg)
 	authService := service.NewAuthService(repo)
 	authHandler := handler.NewAuthHandler(authService)
 
-	// Инициализация Gin
 	r := gin.Default()
 
-	// Маршруты
 	r.POST("/login", authHandler.Login)
 	r.POST("/refresh-token", authHandler.RefreshToken)
 	r.POST("/logout", authHandler.Logout)
 
-	// Запуск сервера
-	r.Run(":8080")
+	r.Run(":8081")
 }
