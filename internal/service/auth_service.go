@@ -1,8 +1,8 @@
 package service
 
 import (
-	"tariff-calculator/tariff-api/pkg/model"
-	"tariff-calculator/tariff-api/pkg/repository"
+	"tariff-calculator/tariff-api/internal/model"
+	"tariff-calculator/tariff-api/internal/repository"
 
 	"github.com/pkg/errors"
 )

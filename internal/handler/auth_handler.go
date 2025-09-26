@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-	"tariff-calculator/tariff-api/pkg/service"
+	"tariff-calculator/tariff-api/internal/service"
 
 	"github.com/gin-gonic/gin"
 )
