@@ -1,10 +1,10 @@
 package main
 
 import (
-	"tariff-calculator/tariff-api/pkg/config"
-	"tariff-calculator/tariff-api/pkg/handler"
-	"tariff-calculator/tariff-api/pkg/repository"
-	"tariff-calculator/tariff-api/pkg/service"
+	"tariff-calculator/tariff-api/internal/config"
+	"tariff-calculator/tariff-api/internal/handler"
+	"tariff-calculator/tariff-api/internal/repository"
+	"tariff-calculator/tariff-api/internal/service"
 
 	"github.com/gin-gonic/gin"
 )
