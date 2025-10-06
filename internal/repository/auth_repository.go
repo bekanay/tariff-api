@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"tariff-calculator/tariff-api/internal/config"
-	"tariff-calculator/tariff-api/internal/model"
+	"tariff-api/internal/config"
+	"tariff-api/internal/model"
 
 	"github.com/Nerzal/gocloak/v11"
 	"github.com/pkg/errors"
