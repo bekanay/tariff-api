@@ -3,6 +3,7 @@ package main
 import (
 	"tariff-api/internal/config"
 	"tariff-api/internal/handler"
+	mw "tariff-api/internal/middleware"
 	"tariff-api/internal/repository"
 	"tariff-api/internal/service"
 
@@ -17,6 +18,7 @@ func main() {
 	authHandler := handler.NewAuthHandler(authService)
 
 	r := gin.Default()
+	r.Use(mw.CORS())
 
 	r.POST("/login", authHandler.Login)
 	r.POST("/refresh-token", authHandler.RefreshToken)
