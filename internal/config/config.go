@@ -8,11 +8,14 @@ import (
 )
 
 type Config struct {
-	KeycloakURL  string
-	ClientID     string
-	ClientSecret string
-	Realm        string
-	RedirectURI  string
+	KeyCloak struct {
+		KeycloakURL  string
+		ClientID     string
+		ClientSecret string
+		Realm        string
+		RedirectURI  string
+	}
+	Dsn string
 }
 
 func LoadConfig() *Config {
@@ -21,11 +24,15 @@ func LoadConfig() *Config {
 		log.Fatal("Error loading .env file")
 	}
 
-	return &Config{
-		KeycloakURL:  os.Getenv("KEYCLOAK_URL"),
-		ClientID:     os.Getenv("CLIENT_ID"),
-		ClientSecret: os.Getenv("CLIENT_SECRET"),
-		Realm:        os.Getenv("REALM"),
-		RedirectURI:  os.Getenv("REDIRECT_URI"),
-	}
+	cfg := &Config{}
+
+	cfg.KeyCloak.KeycloakURL = os.Getenv("KEYCLOAK_URL")
+	cfg.KeyCloak.ClientID = os.Getenv("CLIENT_ID")
+	cfg.KeyCloak.ClientSecret = os.Getenv("CLIENT_SECRET")
+	cfg.KeyCloak.Realm = os.Getenv("REALM")
+	cfg.KeyCloak.RedirectURI = os.Getenv("REDIRECT_URI")
+
+	cfg.Dsn = os.Getenv("DB_DSN")
+
+	return cfg
 }

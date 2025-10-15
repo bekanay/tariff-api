@@ -15,7 +15,7 @@ type AuthRepository struct {
 }
 
 func NewAuthRepository(cfg *config.Config) *AuthRepository {
-	client := gocloak.NewClient(cfg.KeycloakURL)
+	client := gocloak.NewClient(cfg.KeyCloak.KeycloakURL)
 	return &AuthRepository{
 		client: client,
 		cfg:    cfg,
@@ -23,7 +23,7 @@ func NewAuthRepository(cfg *config.Config) *AuthRepository {
 }
 
 func (repo *AuthRepository) Login(username, password string) (*model.TokenResponse, error) {
-	token, err := repo.client.Login(context.Background(), repo.cfg.ClientID, repo.cfg.ClientSecret, repo.cfg.Realm, username, password)
+	token, err := repo.client.Login(context.Background(), repo.cfg.KeyCloak.ClientID, repo.cfg.KeyCloak.ClientSecret, repo.cfg.KeyCloak.Realm, username, password)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to login")
 	}
@@ -37,7 +37,7 @@ func (repo *AuthRepository) Login(username, password string) (*model.TokenRespon
 }
 
 func (repo *AuthRepository) RefreshToken(refreshToken string) (*model.TokenResponse, error) {
-	token, err := repo.client.RefreshToken(context.Background(), refreshToken, repo.cfg.ClientID, repo.cfg.ClientSecret, repo.cfg.Realm)
+	token, err := repo.client.RefreshToken(context.Background(), refreshToken, repo.cfg.KeyCloak.ClientID, repo.cfg.KeyCloak.ClientSecret, repo.cfg.KeyCloak.Realm)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to refresh token")
 	}
@@ -51,7 +51,7 @@ func (repo *AuthRepository) RefreshToken(refreshToken string) (*model.TokenRespo
 }
 
 func (repo *AuthRepository) Logout(refreshToken string) error {
-	err := repo.client.Logout(context.Background(), repo.cfg.ClientID, repo.cfg.ClientSecret, repo.cfg.Realm, refreshToken)
+	err := repo.client.Logout(context.Background(), repo.cfg.KeyCloak.ClientID, repo.cfg.KeyCloak.ClientSecret, repo.cfg.KeyCloak.Realm, refreshToken)
 	if err != nil {
 		return errors.Wrap(err, "failed to logout")
 	}
