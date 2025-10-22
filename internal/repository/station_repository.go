@@ -15,8 +15,8 @@ func NewStationRepository(db *sql.DB) *StationRepository {
 
 func (repo *StationRepository) GetStations() ([]model.Station, error) {
 	rows, err := repo.db.Query(`
-		SELECT ID, CODE, NAME, PARAGRAPH
-		FROM stations
+		SELECT id, stan_kod, stan_name, stan_priznak, paragraph
+		FROM stan
 		ORDER BY id
 	`)
 	if err != nil {
@@ -26,10 +26,14 @@ func (repo *StationRepository) GetStations() ([]model.Station, error) {
 
 	stations := make([]model.Station, 0)
 	for rows.Next() {
-		var station model.Station
-		if err := rows.Scan(&station.ID, &station.CODE, &station.NAME, &station.PARAGRAPH); err != nil {
+		var (
+			station   model.Station
+			paragraph sql.NullString
+		)
+		if err := rows.Scan(&station.ID, &station.Kod, &station.Name, &station.Priznak, &paragraph); err != nil {
 			return nil, err
 		}
+		station.Paragraph = paragraph.String
 		stations = append(stations, station)
 	}
 	if err := rows.Err(); err != nil {
